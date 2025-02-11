@@ -1,0 +1,46 @@
+# Development Tools
+black==23.12.1
+flake8==7.0.0
+pytest==7.4.4
+pytest-cov==4.1.0
+ruff==0.1.14
+
+# Jupyter Support
+jupyter==1.0.0
+notebook==7.0.7
+ipykernel==6.29.0
+
+# Documentation
+mkdocs==1.5.3
+mkdocs-material==9.5.3
+mkdocstrings==0.24.0
+mkdocstrings-python==1.7.5
+griffe==1.5.6
+pyyaml==6.0.1
+markdown==3.5.2
+beautifulsoup4==4.12.3
+requests==2.31.0
+rich==13.7.0
+mkdocs-git-revision-date-localized-plugin==1.2.2
+mkdocs-minify-plugin==0.7.2
+mkdocs-social-plugin==0.1.1
+mike==2.0.0
+
+# Code Analysis
+mypy==1.8.0
+pylint==3.0.3
+
+# Type Checking
+types-python-dateutil==2.8.19.20240106
+typing-extensions==4.9.0
+
+# Git Integration
+pre-commit==3.6.0
+
+# Project Dependencies
+numpy>=1.26.0
+pandas>=2.2.0
+python-dateutil>=2.8.2
+pyyaml>=6.0.1
+requests>=2.31.0
+matplotlib>=3.8.0
