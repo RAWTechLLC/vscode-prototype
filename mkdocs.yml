@@ -51,6 +51,8 @@ nav:
     - Guidelines: contributing/guidelines.md
     - Development Setup: contributing/development-setup.md
     - GitHub Pages Setup: contributing/github-pages-setup.md
+  - Roadmap:
+    - Future Enhancements: roadmap/future-enhancements.md
 
 markdown_extensions:
   - admonition
