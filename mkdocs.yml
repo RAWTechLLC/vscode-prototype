@@ -3,6 +3,7 @@ site_description: Test environment for validating VS Code configurations and Pyt
 site_url: https://rawtechllc.github.io/vscode-prototype/
 repo_url: https://github.com/RAWTechLLC/vscode-prototype
 repo_name: RAWTechLLC/vscode-prototype
+edit_uri: edit/main/docs/
 
 theme:
   name: material
@@ -75,3 +76,5 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/RAWTechLLC/vscode-prototype
       name: VS Code Prototype on GitHub
+
+use_directory_urls: true
