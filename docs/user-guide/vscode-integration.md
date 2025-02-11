@@ -1,6 +1,6 @@
-# VS Code Integration Guide
+# VS Code Integration
 
-This guide covers the key VS Code features and integrations available in our development environment.
+This guide covers the VS Code features and integrations available in the prototype environment.
 
 ## Python Development Features
 
@@ -9,101 +9,71 @@ This guide covers the key VS Code features and integrations available in our dev
 VS Code provides rich Python IntelliSense through Pylance:
 
 - Auto-completion
-- Type information
+- Type checking
+- Import suggestions
 - Function signatures
 - Quick documentation
-- Import suggestions
-
-To trigger IntelliSense:
-- Windows/Linux: `Ctrl+Space`
-- macOS: `Cmd+Space`
 
 ### Code Navigation
 
 Navigate your codebase efficiently:
 
-- Go to Definition: `F12`
-- Peek Definition: `Alt+F12`
-- Find All References: `Shift+F12`
-- Go to Symbol: `Ctrl+Shift+O`
-- Workspace Symbol Search: `Ctrl+T`
+- Go to Definition (F12)
+- Find All References (Shift+F12)
+- Go to Symbol (Ctrl+T)
+- Breadcrumbs navigation
+- Outline view
 
-### Code Formatting
+### Debugging
 
-Automatic code formatting with Black:
+Advanced debugging capabilities:
 
-- Format on Save (enabled by default)
-- Manual formatting: `Shift+Alt+F`
-- Format selection: `Ctrl+K Ctrl+F`
+1. Breakpoints:
+   - Line breakpoints (F9)
+   - Conditional breakpoints
+   - Logpoints
+   - Data breakpoints
 
-Configuration in `.vscode/settings.json`:
-```json
-{
-    "python.formatting.provider": "black",
-    "editor.formatOnSave": true,
-    "editor.rulers": [80, 100]
-}
-```
+2. Debug Actions:
+   - Start/Continue (F5)
+   - Step Over (F10)
+   - Step Into (F11)
+   - Step Out (Shift+F11)
+   - Restart (Ctrl+Shift+F5)
 
-### Linting
-
-Real-time code analysis with Ruff:
-
-- Error detection
-- Style checking
-- Best practice suggestions
-
-Linting settings:
-```json
-{
-    "python.linting.enabled": true,
-    "python.linting.flake8Enabled": true
-}
-```
+3. Debug Views:
+   - Variables
+   - Watch
+   - Call Stack
+   - Breakpoints
 
 ## Jupyter Integration
 
-### Interactive Window
+### Interactive Development
 
-The Interactive Python window provides REPL functionality:
+1. Jupyter Notebooks:
+   - Create new notebooks
+   - Import existing notebooks
+   - Export to various formats
 
-1. Open: `Ctrl+Shift+P` → "Python: Create Interactive Window"
-2. Run code: Select code and press `Shift+Enter`
-3. View variables in Variables window
-4. Plot inline visualizations
+2. Interactive Window:
+   - Run code cells (#%%)
+   - View plots inline
+   - Variable explorer
+   - Data viewer
 
-### Notebook Support
+### Cell Operations
 
-Full Jupyter notebook integration:
+```python
+#%% [markdown]
+# This is a markdown cell
 
-- Open `.ipynb` files directly
-- Run cells with `Shift+Enter`
-- Add/delete cells
-- Export to various formats
-
-Features:
-- Variable explorer
-- Data viewer
-- Plot viewer
-- Kernel management
-
-### Debugging in Notebooks
-
-Debug Jupyter notebook cells:
-
-1. Enable debugging:
-   - Click "Debug Cell" button
-   - Use `Ctrl+Shift+D`
-
-2. Set breakpoints:
-   - Click gutter
-   - Press `F9`
-
-3. Debug controls:
-   - Continue: `F5`
-   - Step Over: `F10`
-   - Step Into: `F11`
-   - Step Out: `Shift+F11`
+#%%
+# This is a code cell
+import pandas as pd
+df = pd.DataFrame({'A': [1, 2, 3]})
+df.head()
+```
 
 ## Git Integration
 
@@ -111,123 +81,48 @@ Debug Jupyter notebook cells:
 
 Built-in Git features:
 
-- View changes: Source Control tab (`Ctrl+Shift+G`)
-- Stage changes: Click '+' or `Ctrl+Enter`
-- Commit: Enter message and `Ctrl+Enter`
-- Push/Pull: Status bar buttons
+- Stage changes
+- Commit
+- Push/Pull
+- Branch management
+- Merge conflict resolution
 
-### Git Lens
+### GitHub Integration
 
-Enhanced Git features:
+With GitHub Pull Requests extension:
 
-- Line-by-line blame
-- File history
-- Branch comparison
-- Repository visualization
+- Review PRs
+- Comment on code
+- Suggest changes
+- Merge PRs
 
-## Debugging
+## Terminal Integration
 
-### Launch Configurations
+### Integrated Terminal
 
-Debug configurations in `.vscode/launch.json`:
+- Multiple terminals
+- Split terminals
+- Custom shell configurations
+- Task running
+
+### Task Runner
+
+Configure tasks in `.vscode/tasks.json`:
 
 ```json
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Python: Current File",
-            "type": "python",
-            "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Python: Tests",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
-            "args": ["tests/"],
-            "console": "integratedTerminal"
-        }
-    ]
-}
-```
-
-### Debug Features
-
-- Set breakpoints: Click gutter or `F9`
-- Start debugging: `F5`
-- Step Over: `F10`
-- Step Into: `F11`
-- Step Out: `Shift+F11`
-- Continue: `F5`
-- Stop: `Shift+F5`
-
-### Debug Console
-
-Interactive debug console:
-
-- Evaluate expressions
-- View variable values
-- Execute commands
-
-Access: Debug toolbar → Open Debug Console
-
-## Testing
-
-### Test Explorer
-
-Integrated test explorer:
-
-- View all tests
-- Run individual tests
-- Debug tests
-- View test output
-
-Access: Testing sidebar (`Ctrl+Shift+P` → "Test: Focus on Test Explorer View")
-
-### Test Commands
-
-Common test operations:
-
-- Run all tests: `pytest tests/`
-- Run specific test: `pytest tests/test_file.py::test_name`
-- Generate coverage: `pytest --cov=src tests/`
-
-## Customization
-
-### User Settings
-
-Access settings:
-- `Ctrl+,` or
-- File → Preferences → Settings
-
-Key settings:
-```json
-{
-    "editor.rulers": [80, 100],
-    "editor.renderWhitespace": "all",
-    "editor.wordWrap": "on",
-    "files.trimTrailingWhitespace": true
-}
-```
-
-### Keyboard Shortcuts
-
-View/modify shortcuts:
-- `Ctrl+K Ctrl+S` or
-- File → Preferences → Keyboard Shortcuts
-
-Common customizations:
-```json
-{
-    "key": "ctrl+r",
-    "command": "python.execInTerminal"
-},
-{
-    "key": "ctrl+shift+r",
-    "command": "python.runCurrentFile"
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "pytest",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    }
+  ]
 }
 ```
 
@@ -235,51 +130,110 @@ Common customizations:
 
 ### Required Extensions
 
-Core functionality:
-- Python
-- Pylance
-- Jupyter
-- Ruff
-- Black Formatter
+1. Python:
+   - Python extension
+   - Pylance
+   - Python Test Explorer
+
+2. Documentation:
+   - reStructuredText
+   - Markdown All in One
+
+3. Git:
+   - GitLens
+   - GitHub Pull Requests
 
 ### Recommended Extensions
 
-Additional tools:
-- GitLens
-- Python Test Explorer
-- Python Docstring Generator
-- Better Comments
-- autoDocstring
+1. Productivity:
+   - Path Intellisense
+   - Todo Tree
+   - Better Comments
+
+2. Code Quality:
+   - Error Lens
+   - Code Spell Checker
+
+3. Themes:
+   - Material Icon Theme
+   - Atom One Dark Theme
+
+## Workspace Settings
+
+### Python Settings
+
+```json
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.analysis.typeCheckingMode": "basic",
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": true
+}
+```
+
+### Editor Settings
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.rulers": [88],
+  "editor.renderWhitespace": "all",
+  "editor.suggestSelection": "first",
+  "files.trimTrailingWhitespace": true
+}
+```
+
+## Customization
+
+### Keyboard Shortcuts
+
+Common shortcuts:
+
+- Command Palette: Ctrl+Shift+P
+- Quick Open: Ctrl+P
+- Toggle Terminal: Ctrl+`
+- Toggle Sidebar: Ctrl+B
+- Format Document: Alt+Shift+F
+
+### Custom Keybindings
+
+Add custom keybindings in `keybindings.json`:
+
+```json
+[
+  {
+    "key": "ctrl+k ctrl+t",
+    "command": "python.runtests"
+  }
+]
+```
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. Python Interpreter Not Found
-   - Command Palette → "Python: Select Interpreter"
+1. Python Interpreter:
+   - Command Palette > "Python: Select Interpreter"
    - Choose `.venv` environment
 
-2. Linting Not Working
-   - Verify Ruff installation
-   - Check settings.json configuration
-   - Reload VS Code
+2. Extension Issues:
+   - Reload Window
+   - Reinstall extension
+   - Clear extension cache
 
-3. Debugger Issues
-   - Verify launch.json configuration
-   - Check Python path
-   - Reload window
+3. IntelliSense:
+   - Reload Language Server
+   - Rebuild IntelliSense database
 
 ### Logs and Diagnostics
 
 Access logs:
-1. Command Palette → "Developer: Open Logs Folder"
-2. Check relevant log files:
-   - Python Language Server
-   - Jupyter
-   - VS Code main log
+- Command Palette > "Developer: Open Logs Folder"
+- Help > Toggle Developer Tools
 
-## See Also
+## Next Steps
 
-- [Installation Guide](../getting-started/installation.md)
-- [Development Workflow](development-workflow.md)
-- [Best Practices](../best-practices/code-style.md)
+- Explore [Extensions](extensions.md) in detail
+- Review [Development Workflow](development-workflow.md)
+- Check [Best Practices](../best-practices/code-style.md)

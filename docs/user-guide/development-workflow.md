@@ -1,276 +1,212 @@
 # Development Workflow
 
-This guide outlines our recommended development workflow using VS Code and Python.
-
-## Test-Driven Development (TDD)
-
-### 1. Write Test First
-
-Create test file before implementation:
-
-```python
-# tests/test_feature.py
-def test_new_feature():
-    """Test the new feature functionality."""
-    result = my_feature()
-    assert result == expected_value
-```
-
-### 2. Run Test (Red)
-
-Run the test to see it fail:
-```bash
-pytest tests/test_feature.py -v
-```
-
-### 3. Implement Feature (Green)
-
-Write minimal code to pass test:
-
-```python
-# src/module.py
-def my_feature():
-    """Implement the new feature."""
-    return expected_value
-```
-
-### 4. Refactor
-
-Improve code while keeping tests green:
-```python
-def my_feature():
-    """Implement the new feature with better structure."""
-    # Refactored implementation
-    return calculate_result()
-```
-
-## Code Quality Process
-
-### 1. Auto-Formatting
-
-Black formats code on save:
-- Consistent style
-- PEP 8 compliance
-- Readable diffs
-
-### 2. Linting
-
-Ruff checks for:
-- Code style issues
-- Potential bugs
-- Complexity problems
-- Import organization
-
-### 3. Type Checking
-
-Use type hints and mypy:
-```python
-def process_data(items: list[str]) -> dict[str, int]:
-    """Process string items into count dictionary."""
-    return {item: items.count(item) for item in set(items)}
-```
-
-### 4. Documentation
-
-Write docstrings for all public APIs:
-```python
-def calculate_metrics(data: pd.DataFrame) -> dict[str, float]:
-    """Calculate statistical metrics for DataFrame columns.
-    
-    Args:
-        data: Input DataFrame with numeric columns
-        
-    Returns:
-        Dictionary mapping column names to their metrics
-        
-    Raises:
-        ValueError: If DataFrame has no numeric columns
-    """
-```
-
-## Git Workflow
-
-### 1. Feature Branch
-
-Create branch for new feature:
-```bash
-git checkout -b feature/new-feature
-```
-
-### 2. Commit Changes
-
-Make small, focused commits:
-```bash
-git add src/module.py tests/test_module.py
-git commit -m "Add new feature with tests"
-```
-
-### 3. Keep Updated
-
-Regularly sync with main branch:
-```bash
-git fetch origin
-git rebase origin/main
-```
-
-### 4. Code Review
-
-- Push branch
-- Create pull request
-- Address review comments
-- Merge when approved
+This guide outlines the recommended development workflow for the VS Code Prototype environment.
 
 ## Development Cycle
 
-### 1. Planning
+### 1. Feature Branch Creation
 
-1. Understand requirements
-2. Design API
-3. Write test cases
-4. Plan implementation
+Create a new branch for your feature or bugfix:
 
-### 2. Implementation
+```bash
+git checkout -b feature/your-feature-name
+# or
+git checkout -b fix/your-bugfix-name
+```
 
-1. Write failing test
-2. Implement feature
-3. Run tests
-4. Refactor
-5. Document
+### 2. Development Environment
 
-### 3. Review
+1. Activate Virtual Environment:
+   ```bash
+   .venv\Scripts\activate  # Windows
+   source .venv/bin/activate  # Linux/macOS
+   ```
 
-1. Self-review changes
-2. Run all tests
-3. Check documentation
-4. Create pull request
+2. Start Development Server:
+   ```bash
+   # For documentation
+   mkdocs serve
+   
+   # For Python development
+   python scripts/dev_server.py
+   ```
 
-### 4. Deployment
+### 3. Interactive Development
 
-1. Merge to main
-2. Run integration tests
-3. Update documentation
-4. Deploy changes
+#### Jupyter Integration
+
+Use Jupyter notebooks for exploratory development:
+
+1. Create a new notebook:
+   - Command Palette (Ctrl+Shift+P)
+   - "Create: New Jupyter Notebook"
+
+2. Select kernel:
+   - Click "Select Kernel"
+   - Choose ".venv/Python 3.x"
+
+3. Interactive features:
+   - Variable explorer
+   - Data viewer
+   - Plot viewer
+
+#### VS Code Features
+
+Utilize VS Code's Python features:
+
+- Interactive window (Ctrl+Shift+Enter)
+- Debug console (integrated terminal)
+- Breakpoint debugging
+- IntelliSense code completion
+
+### 4. Testing
+
+Run tests during development:
+
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/test_specific.py
+
+# Run tests with coverage
+pytest --cov=src tests/
+```
+
+### 5. Code Quality
+
+Maintain code quality with automated tools:
+
+```bash
+# Format code with Black
+black .
+
+# Sort imports
+isort .
+
+# Run linter
+flake8
+```
+
+### 6. Documentation
+
+Update documentation alongside code:
+
+1. Add docstrings to new code:
+   ```python
+   def new_function(param: str) -> bool:
+       """
+       Brief description of function.
+
+       Args:
+           param (str): Parameter description
+
+       Returns:
+           bool: Return value description
+       """
+       pass
+   ```
+
+2. Update relevant documentation files:
+   - API reference for new features
+   - User guide for workflow changes
+   - README for significant updates
+
+### 7. Commit Changes
+
+Follow commit message conventions:
+
+```bash
+# Format: <type>(<scope>): <description>
+git commit -m "feat(api): add new endpoint for data processing"
+git commit -m "fix(ui): resolve button alignment issue"
+git commit -m "docs: update installation guide"
+```
+
+Types:
+- feat: New feature
+- fix: Bug fix
+- docs: Documentation
+- style: Formatting
+- refactor: Code restructuring
+- test: Adding tests
+- chore: Maintenance
+
+### 8. Pull Request
+
+1. Push changes:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+2. Create Pull Request:
+   - Use PR template
+   - Link related issues
+   - Add descriptive title and description
+   - Request reviewers
+
+3. Address Review Comments:
+   - Make requested changes
+   - Push updates
+   - Respond to comments
+
+### 9. Merge and Deploy
+
+After approval:
+
+1. Merge PR:
+   - Squash and merge for clean history
+   - Delete feature branch
+
+2. Deploy:
+   - GitHub Actions handles deployment
+   - Verify deployment success
+   - Check documentation updates
 
 ## Best Practices
 
-### Code Organization
+- Keep branches focused and short-lived
+- Write tests for new features
+- Update documentation proactively
+- Use meaningful commit messages
+- Review your own code before requesting review
+- Keep PRs manageable in size
 
-```
-project/
-├── src/
-│   ├── __init__.py
-│   ├── module1.py
-│   └── module2.py
-├── tests/
-│   ├── test_module1.py
-│   └── test_module2.py
-└── docs/
-    ├── api/
-    └── guides/
-```
+## Troubleshooting
 
-### Testing Strategy
+### Common Issues
 
-1. Unit Tests
-   - Test individual components
-   - Mock dependencies
-   - Fast execution
+1. Virtual Environment:
+   ```bash
+   # Recreate if needed
+   rm -rf .venv
+   python -m venv .venv
+   ```
 
-2. Integration Tests
-   - Test component interaction
-   - Minimal mocking
-   - Real dependencies
+2. Dependencies:
+   ```bash
+   # Update all dependencies
+   pip install -r requirements.txt --upgrade
+   ```
 
-3. End-to-End Tests
-   - Test complete workflows
-   - Production-like environment
-   - Full system integration
+3. Git Issues:
+   ```bash
+   # Reset local changes
+   git reset --hard origin/main
+   
+   # Clean untracked files
+   git clean -fd
+   ```
 
-### Documentation Types
+### Getting Help
 
-1. Code Documentation
-   - Docstrings
-   - Type hints
-   - Comments
+- Check [Contributing Guidelines](../contributing/guidelines.md)
+- Review [GitHub Issues](https://github.com/RAWTechLLC/vscode-prototype/issues)
+- Ask in team chat/discussions
 
-2. API Documentation
-   - Function signatures
-   - Parameters
-   - Return values
-   - Examples
+## Next Steps
 
-3. User Guides
-   - Installation
-   - Configuration
-   - Usage examples
-
-## Development Environment
-
-### Editor Setup
-
-1. VS Code Extensions
-   - Python
-   - Pylance
-   - Git Lens
-   - Test Explorer
-
-2. Workspace Settings
-   - Format on save
-   - Line length rulers
-   - Integrated terminal
-
-3. Keyboard Shortcuts
-   - Quick test running
-   - Git commands
-   - Code navigation
-
-### Tools Integration
-
-1. Testing
-   - pytest
-   - coverage
-   - pytest-cov
-
-2. Code Quality
-   - black
-   - ruff
-   - mypy
-
-3. Documentation
-   - mkdocs
-   - mkdocstrings
-
-## Continuous Integration
-
-### GitHub Actions
-
-```yaml
-name: CI
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run tests
-        run: pytest tests/
-```
-
-### Quality Gates
-
-1. All tests passing
-2. Code coverage >= 90%
-3. No linting errors
-4. Documentation updated
-
-## See Also
-
-- [VS Code Integration](vscode-integration.md)
-- [Code Style Guide](../best-practices/code-style.md)
-- [Testing Guide](../best-practices/testing.md)
+- Learn about [VS Code Integration](vscode-integration.md)
+- Explore available [Extensions](extensions.md)
+- Review [Code Style](../best-practices/code-style.md)

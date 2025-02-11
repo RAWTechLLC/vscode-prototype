@@ -1,6 +1,6 @@
-# VS Code Extensions Guide
+# VS Code Extensions
 
-This guide covers the recommended VS Code extensions and their configurations for Python development.
+This guide covers the recommended VS Code extensions for the prototype environment and how to use them effectively.
 
 ## Core Extensions
 
@@ -12,298 +12,238 @@ This guide covers the recommended VS Code extensions and their configurations fo
    - Debugging
    - Testing
    - Jupyter support
-   
-   Configuration:
    ```json
-   {
-       "python.defaultInterpreterPath": "${workspaceFolder}/.venv/Scripts/python.exe",
-       "python.analysis.typeCheckingMode": "basic",
-       "python.analysis.autoImportCompletions": true
-   }
+   "python.formatting.provider": "black",
+   "python.linting.enabled": true
    ```
 
 2. **Pylance** (ms-python.vscode-pylance)
-   - Fast type checking
+   - Type checking
    - Import organization
-   - Type inference
-   
-   Configuration:
+   - Advanced IntelliSense
    ```json
-   {
-       "python.analysis.diagnosticMode": "workspace",
-       "python.analysis.indexing": true,
-       "python.analysis.autoSearchPaths": true
-   }
+   "python.analysis.typeCheckingMode": "basic",
+   "python.analysis.diagnosticMode": "workspace"
    ```
 
-### Code Quality
-
-1. **Black Formatter** (ms-python.black-formatter)
-   - Automatic code formatting
-   - PEP 8 compliance
-   
-   Configuration:
-   ```json
-   {
-       "python.formatting.provider": "black",
-       "editor.formatOnSave": true,
-       "editor.formatOnPaste": false
-   }
-   ```
-
-2. **Ruff** (charliermarsh.ruff)
-   - Fast Python linting
-   - Code style checking
-   
-   Configuration:
-   ```json
-   {
-       "python.linting.enabled": true,
-       "python.linting.flake8Enabled": false,
-       "python.linting.ruffEnabled": true
-   }
-   ```
-
-## Testing Extensions
-
-### Test Management
-
-1. **Python Test Explorer** (littlefoxteam.vscode-python-test-adapter)
+3. **Python Test Explorer** (littlefoxteam.vscode-python-test-adapter)
    - Visual test runner
    - Test discovery
    - Test debugging
-   
-   Configuration:
    ```json
-   {
-       "pythonTestExplorer.testFramework": "pytest",
-       "pythonTestExplorer.autoDiscover": "true"
-   }
+   "pythonTestExplorer.testFramework": "pytest"
    ```
 
-2. **Coverage Gutters** (ryanluker.vscode-coverage-gutters)
-   - Coverage visualization
-   - Line highlighting
-   
-   Configuration:
-   ```json
-   {
-       "coverage-gutters.showLineCoverage": true,
-       "coverage-gutters.showRulerCoverage": true
-   }
-   ```
+### Documentation
 
-## Documentation Extensions
-
-### Documentation Tools
-
-1. **Python Docstring Generator** (njpwerner.autodocstring)
-   - Automatic docstring generation
-   - Multiple docstring formats
-   
-   Configuration:
-   ```json
-   {
-       "autoDocstring.docstringFormat": "google",
-       "autoDocstring.startOnNewLine": true,
-       "autoDocstring.includeDescription": true
-   }
-   ```
-
-2. **Markdown All in One** (yzhang.markdown-all-in-one)
-   - Markdown shortcuts
+1. **Markdown All in One** (yzhang.markdown-all-in-one)
    - Table of contents
-   - Preview
-   
-   Configuration:
+   - Auto-formatting
+   - Math equations
    ```json
-   {
-       "markdown.extension.toc.updateOnSave": true,
-       "markdown.extension.preview.autoShowPreviewToSide": false
-   }
+   "markdown.extension.toc.updateOnSave": true,
+   "markdown.extension.preview.autoShowPreviewToSide": true
    ```
 
-## Git Integration
+2. **reStructuredText** (lextudio.restructuredtext)
+   - Syntax highlighting
+   - Preview
+   - IntelliSense
+   ```json
+   "restructuredtext.confPath": "${workspaceFolder}/docs"
+   ```
 
-### Version Control
+### Git Integration
 
 1. **GitLens** (eamodio.gitlens)
-   - Git blame annotations
-   - File history
+   - Blame annotations
    - Repository visualization
-   
-   Configuration:
+   - History exploration
    ```json
-   {
-       "gitlens.codeLens.enabled": true,
-       "gitlens.currentLine.enabled": true,
-       "gitlens.hovers.currentLine.over": "line"
-   }
+   "gitlens.codeLens.enabled": true,
+   "gitlens.currentLine.enabled": true
    ```
 
-2. **Git Graph** (mhutchie.git-graph)
-   - Repository visualization
-   - Branch management
-   
-   Configuration:
+2. **GitHub Pull Requests** (github.vscode-pull-request-github)
+   - PR management
+   - Review tools
+   - Issue tracking
    ```json
-   {
-       "git-graph.repository.commits.showSignatureStatus": true,
-       "git-graph.date.format": "ISO"
-   }
+   "githubPullRequests.createOnPublish": "ask"
    ```
 
 ## Productivity Extensions
 
-### Development Tools
+### Code Quality
 
-1. **Visual Studio IntelliCode** (visualstudioexptteam.vscodeintellicode)
-   - AI-assisted development
-   - Smart completions
-   
-   Configuration:
+1. **Error Lens** (usernamehw.errorlens)
+   - Inline error display
+   - Quick fixes
+   - Enhanced diagnostics
    ```json
-   {
-       "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue"
-   }
+   "errorLens.enabledDiagnosticLevels": [
+     "error",
+     "warning",
+     "info"
+   ]
    ```
 
-2. **Better Comments** (aaron-bond.better-comments)
+2. **Code Spell Checker** (streetsidesoftware.code-spell-checker)
+   - Spell checking
+   - Custom dictionaries
+   - Multi-language support
+   ```json
+   "cSpell.enableFiletypes": [
+     "python",
+     "markdown",
+     "yaml"
+   ]
+   ```
+
+### Navigation
+
+1. **Path Intellisense** (christian-kohler.path-intellisense)
+   - Path completion
+   - Import suggestions
+   ```json
+   "path-intellisense.autoSlashAfterDirectory": true
+   ```
+
+2. **Todo Tree** (gruntfuggly.todo-tree)
+   - TODO comment tracking
+   - Custom tags
+   - Tree view
+   ```json
+   "todo-tree.general.tags": [
+     "TODO",
+     "FIXME",
+     "NOTE",
+     "HACK"
+   ]
+   ```
+
+### Editor Enhancement
+
+1. **Better Comments** (aaron-bond.better-comments)
    - Comment highlighting
-   - TODO tracking
-   
-   Configuration:
+   - Custom tags
    ```json
+   "better-comments.tags": [
+     {
+       "tag": "!",
+       "color": "#FF2D00",
+       "strikethrough": false,
+       "backgroundColor": "transparent"
+     }
+   ]
+   ```
+
+2. **Bracket Pair Colorizer 2** (coenraads.bracket-pair-colorizer-2)
+   - Bracket matching
+   - Custom colors
+   ```json
+   "bracket-pair-colorizer-2.colors": [
+     "#fafafa",
+     "#9F51B6",
+     "#F7C244"
+   ]
+   ```
+
+## Theme Extensions
+
+### UI Themes
+
+1. **Material Icon Theme** (pkief.material-icon-theme)
+   - File icons
+   - Folder icons
+   ```json
+   "workbench.iconTheme": "material-icon-theme",
+   "material-icon-theme.activeIconPack": "react"
+   ```
+
+2. **Atom One Dark Theme** (akamud.vscode-theme-onedark)
+   - Dark theme
+   - Syntax highlighting
+   ```json
+   "workbench.colorTheme": "Atom One Dark"
+   ```
+
+## Extension Management
+
+### Installation
+
+1. Bulk Install:
+   ```bash
+   code --install-extension ms-python.python
+   code --install-extension ms-python.vscode-pylance
+   ```
+
+2. Extensions File:
+   ```json
+   // .vscode/extensions.json
    {
-       "better-comments.tags": [
-           {
-               "tag": "!",
-               "color": "#FF2D00",
-               "strikethrough": false,
-               "backgroundColor": "transparent"
-           },
-           {
-               "tag": "?",
-               "color": "#3498DB",
-               "strikethrough": false,
-               "backgroundColor": "transparent"
-           },
-           {
-               "tag": "//",
-               "color": "#474747",
-               "strikethrough": true,
-               "backgroundColor": "transparent"
-           },
-           {
-               "tag": "todo",
-               "color": "#FF8C00",
-               "strikethrough": false,
-               "backgroundColor": "transparent"
-           },
-           {
-               "tag": "*",
-               "color": "#98C379",
-               "strikethrough": false,
-               "backgroundColor": "transparent"
-           }
-       ]
+     "recommendations": [
+       "ms-python.python",
+       "ms-python.vscode-pylance",
+       "littlefoxteam.vscode-python-test-adapter"
+     ]
    }
    ```
 
-## Extension Pack
+### Configuration
 
-### Recommended Extensions List
+Create workspace settings:
 
-Create `.vscode/extensions.json`:
 ```json
+// .vscode/settings.json
 {
-    "recommendations": [
-        "ms-python.python",
-        "ms-python.vscode-pylance",
-        "ms-python.black-formatter",
-        "charliermarsh.ruff",
-        "littlefoxteam.vscode-python-test-adapter",
-        "ryanluker.vscode-coverage-gutters",
-        "njpwerner.autodocstring",
-        "yzhang.markdown-all-in-one",
-        "eamodio.gitlens",
-        "mhutchie.git-graph",
-        "visualstudioexptteam.vscodeintellicode",
-        "aaron-bond.better-comments"
-    ]
+  "python.formatting.provider": "black",
+  "python.linting.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.rulers": [88],
+  "files.trimTrailingWhitespace": true
 }
 ```
 
-## Installation
+## Best Practices
 
-### Bulk Installation
+1. Extension Usage:
+   - Install only needed extensions
+   - Configure per-workspace settings
+   - Use extension packs
 
-Install all recommended extensions:
+2. Performance:
+   - Disable unused extensions
+   - Configure appropriate resource usage
+   - Monitor extension impact
 
-1. Open VS Code
-2. Go to Extensions view (Ctrl+Shift+X)
-3. Type `@recommended` in search box
-4. Click "Install Workspace Recommended Extensions"
-
-### Manual Installation
-
-Install individual extensions:
-
-1. Open VS Code Quick Open (Ctrl+P)
-2. Run command:
-   ```
-   ext install extension-id
-   ```
-
-## Configuration
-
-### Settings Sync
-
-Enable Settings Sync:
-
-1. Open Command Palette (Ctrl+Shift+P)
-2. Type "Settings Sync"
-3. Choose "Settings Sync: Turn On"
-4. Select settings to sync
-
-### Workspace Settings
-
-Create `.vscode/settings.json`:
-```json
-{
-    "editor.formatOnSave": true,
-    "editor.rulers": [80, 100],
-    "editor.renderWhitespace": "all",
-    "files.trimTrailingWhitespace": true,
-    "files.insertFinalNewline": true,
-    "python.formatting.provider": "black",
-    "python.linting.enabled": true,
-    "python.linting.ruffEnabled": true,
-    "python.testing.pytestEnabled": true
-}
-```
+3. Updates:
+   - Keep extensions updated
+   - Review changelogs
+   - Test after major updates
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. Extension Conflicts
+1. Extension Conflicts:
    - Disable conflicting extensions
-   - Check extension settings
+   - Check extension logs
+   - Reset extension settings
+
+2. Performance Issues:
+   - Use "Developer: Show Running Extensions"
+   - Disable heavy extensions
    - Clear extension cache
 
-2. Performance Issues
-   - Disable unused extensions
-   - Reduce extension features
-   - Update extensions
+### Getting Help
 
-3. Configuration Problems
-   - Reset extension settings
-   - Check workspace settings
-   - Verify file associations
+- Extension documentation
+- GitHub issues
+- VS Code community
 
-## See Also
+## Next Steps
 
-- [Environment Setup](environment-setup.md)
-- [VS Code Integration](vscode-integration.md)
-- [Development Workflow](development-workflow.md)
+- Review [VS Code Integration](vscode-integration.md)
+- Explore [Development Workflow](development-workflow.md)
+- Check [Code Style](../best-practices/code-style.md)
