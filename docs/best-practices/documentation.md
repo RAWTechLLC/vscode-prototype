@@ -1,361 +1,278 @@
-# Documentation Guide
+# Documentation Guidelines
 
-This guide outlines our documentation standards and best practices.
+This guide outlines the documentation standards and best practices for the VS Code Prototype environment.
 
-## Documentation Types
+## Documentation Structure
 
-### 1. Code Documentation
+### Project Documentation
 
-#### Docstrings
+```
+docs/
+├── index.md                  # Project overview
+├── getting-started/          # Getting started guides
+│   ├── installation.md
+│   ├── configuration.md
+│   └── first-steps.md
+├── user-guide/              # User documentation
+│   ├── development-workflow.md
+│   ├── vscode-integration.md
+│   └── extensions.md
+├── api/                     # API documentation
+│   └── data_processor.md
+├── best-practices/          # Best practices guides
+│   ├── code-style.md
+│   ├── documentation.md
+│   └── testing.md
+└── contributing/            # Contributing guides
+    ├── guidelines.md
+    └── development-setup.md
+```
+
+## Writing Style
+
+### General Guidelines
+
+1. Use clear, concise language
+2. Write in present tense
+3. Use active voice
+4. Include code examples
+5. Provide context and explanations
+
+### Formatting
+
+Use Markdown formatting consistently:
+
+```markdown
+# Main Heading
+
+## Section Heading
+
+### Subsection
+
+#### Details
+
+- List item 1
+- List item 2
+  - Subitem 2.1
+  - Subitem 2.2
+
+1. Ordered item 1
+2. Ordered item 2
+
+> Important note or quote
+
+`inline code`
+
+```python
+# Code block
+def example():
+    pass
+```
+```
+
+## Code Documentation
+
+### Python Docstrings
 
 Use Google-style docstrings:
 
 ```python
 def process_data(
-    data: pd.DataFrame,
-    columns: list[str],
-    *,
-    aggregation: str = "mean",
-) -> dict[str, float]:
-    """Process data using specified aggregation method.
+    input_data: pd.DataFrame,
+    options: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    """
+    Process input data with specified options.
     
     Args:
-        data: Input DataFrame containing numeric data
-        columns: List of column names to process
-        aggregation: Statistical operation to perform
-            Options: "mean", "median", "std"
+        input_data: Input DataFrame to process
+        options: Optional configuration dictionary
+            - format (str): Output format
+            - validate (bool): Whether to validate
             
     Returns:
-        Dictionary mapping column names to aggregated values
-        
+        Dictionary containing:
+            - status (str): Processing status
+            - results (pd.DataFrame): Processed data
+            
     Raises:
-        ValueError: If aggregation method is not supported
-        KeyError: If column not found in DataFrame
+        ValueError: If input_data is empty
+        TypeError: If options contains invalid values
         
-    Examples:
-        >>> df = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
-        >>> process_data(df, ["A", "B"], aggregation="mean")
-        {"A": 2.0, "B": 5.0}
-    """
-```
-
-#### Type Hints
-
-Use type hints consistently:
-
-```python
-from typing import Optional, Sequence, TypeVar
-
-T = TypeVar('T', int, float)
-
-def calculate_statistics(
-    values: Sequence[T],
-    weights: Optional[Sequence[float]] = None,
-) -> dict[str, T]:
-    """Calculate weighted statistics."""
-```
-
-### 2. API Documentation
-
-#### Function Documentation
-
-```python
-class DataProcessor:
-    """Process and analyze data with various methods.
-    
-    This class provides methods for loading, cleaning, and analyzing
-    data using pandas DataFrames. It supports various statistical
-    operations and data transformations.
-    
-    Attributes:
-        data: pandas DataFrame containing the data
-        column_types: Dictionary mapping columns to their types
-        
-    Examples:
+    Example:
         >>> processor = DataProcessor()
-        >>> processor.load_data("data.csv")
-        >>> processor.clean_data()
-        >>> stats = processor.calculate_statistics()
+        >>> result = processor.process_data(df, {'format': 'json'})
+        >>> print(result['status'])
+        'success'
     """
-    
-    def __init__(self, data: Optional[pd.DataFrame] = None):
-        """Initialize the DataProcessor.
-        
-        Args:
-            data: Optional DataFrame to process
-        """
+    pass
 ```
 
-#### Module Documentation
+### Module Documentation
+
+Include module-level docstrings:
 
 ```python
-"""Data processing and analysis module.
-
-This module provides functionality for processing and analyzing
-data using pandas DataFrames. It includes:
-
-- Data loading and validation
-- Statistical analysis
-- Data transformation
-- Result visualization
-
-Typical usage example:
-    from data_processor import DataProcessor
-    
-    processor = DataProcessor()
-    processor.load_data("data.csv")
-    results = processor.analyze()
 """
+Data Processing Module
+
+This module provides utilities for processing and analyzing data
+within the VS Code Prototype environment.
+
+Classes:
+    DataProcessor: Main class for data processing operations
+    DataValidator: Validation utilities
+    
+Functions:
+    load_config: Load configuration from file
+    validate_schema: Validate data schema
+"""
+
+from typing import Dict, Optional
+
+import pandas as pd
+
+# Rest of the module code...
 ```
 
-### 3. Project Documentation
+## API Documentation
 
-#### README Structure
+### Structure
+
+1. Overview
+2. Installation/Setup
+3. Basic Usage
+4. API Reference
+5. Examples
+6. Troubleshooting
+
+### Example
 
 ```markdown
-# Project Name
+# Data Processor API
 
-Brief description of the project.
+## Overview
 
-## Features
-
-- Feature 1: Description
-- Feature 2: Description
+The Data Processor API provides utilities for processing and
+analyzing data within the VS Code environment.
 
 ## Installation
 
 ```bash
-pip install project-name
+pip install vscode-prototype
 ```
 
-## Quick Start
+## Basic Usage
 
 ```python
-from project_name import MainClass
+from vscode_prototype import DataProcessor
 
-obj = MainClass()
-result = obj.process()
+processor = DataProcessor()
+result = processor.process_data(input_data)
 ```
 
-## Documentation
+## API Reference
 
-Full documentation at [GitHub Pages](https://rawtech.github.io/vscode-prototype)
+### DataProcessor
+
+Main class for data processing operations.
+
+#### Methods
+
+- `process_data(input_data, options=None)`
+- `analyze_results()`
 ```
 
-#### Contributing Guide
+## MkDocs Configuration
 
-```markdown
-# Contributing Guide
+### Site Structure
 
-## Development Setup
-
-1. Clone repository
-2. Install dependencies
-3. Run tests
-
-## Code Style
-
-Follow [Code Style Guide](code-style.md)
-
-## Pull Request Process
-
-1. Create feature branch
-2. Make changes
-3. Run tests
-4. Submit PR
-```
-
-## Documentation Tools
-
-### 1. MkDocs Configuration
+Configure navigation in `mkdocs.yml`:
 
 ```yaml
-# mkdocs.yml
-site_name: Project Documentation
-theme:
-  name: material
-  features:
-    - navigation.tabs
-    - search.suggest
-plugins:
-  - search
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: [src]
-          options:
-            show_source: true
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Configuration: getting-started/configuration.md
+    - First Steps: getting-started/first-steps.md
+  - User Guide:
+    - Development Workflow: user-guide/development-workflow.md
+    - VS Code Integration: user-guide/vscode-integration.md
+    - Extensions: user-guide/extensions.md
 ```
 
-### 2. Jupyter Notebooks
+### Extensions
 
-Use notebooks for tutorials and examples:
+Enable Markdown extensions:
 
-```python
-# Example.ipynb
-"""
-# Data Processing Tutorial
-
-This notebook demonstrates how to use the DataProcessor class.
-"""
-
-from data_processor import DataProcessor
-
-# Create processor
-processor = DataProcessor()
-
-# Load and process data
-processor.load_data("example.csv")
-results = processor.process()
-
-# Display results
-display(results)
+```yaml
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed
 ```
+
+## Contributing to Documentation
+
+### Pull Request Process
+
+1. Create feature branch
+2. Update documentation
+3. Build locally with `mkdocs serve`
+4. Submit PR with description
+5. Address review comments
+6. Merge after approval
+
+### Documentation Checklist
+
+- [ ] Correct spelling and grammar
+- [ ] Code examples are tested
+- [ ] Links are valid
+- [ ] Images have alt text
+- [ ] Navigation is updated
+- [ ] Mobile-friendly formatting
 
 ## Best Practices
 
-### 1. Documentation Organization
+### Content Organization
 
-```
-project/
-├── docs/
-│   ├── index.md
-│   ├── getting-started/
-│   │   ├── installation.md
-│   │   └── quickstart.md
-│   ├── user-guide/
-│   │   ├── basic-usage.md
-│   │   └── advanced-features.md
-│   ├── api/
-│   │   └── reference.md
-│   └── best-practices/
-│       └── guidelines.md
-└── README.md
-```
+1. Progressive Disclosure:
+   - Start with overview
+   - Provide basic usage
+   - Add advanced topics
+   - Include reference material
 
-### 2. Writing Style
+2. Cross-Referencing:
+   - Link related topics
+   - Use relative links
+   - Maintain link hierarchy
 
-#### Clear and Concise
+3. Examples:
+   - Start simple
+   - Show common use cases
+   - Include error handling
+   - Provide complete context
 
-```python
-# Good
-def validate_input(data: pd.DataFrame) -> bool:
-    """Check if input data meets requirements.
-    
-    Validates:
-    - No missing values
-    - Numeric columns
-    - Proper date format
-    """
+### Maintenance
 
-# Bad
-def validate_input(data: pd.DataFrame) -> bool:
-    """This function takes a pandas DataFrame as input and checks
-    whether or not it meets the requirements we need for our
-    processing pipeline which includes making sure there aren't
-    any missing values and that the columns are numeric and the
-    dates are formatted correctly as per our needs."""
-```
+1. Regular Updates:
+   - Review for accuracy
+   - Update screenshots
+   - Check external links
+   - Verify code examples
 
-#### Examples and Usage
+2. Version Control:
+   - Document changes
+   - Tag documentation versions
+   - Maintain changelog
+   - Archive old versions
 
-```python
-def calculate_metrics(data: pd.Series) -> dict[str, float]:
-    """Calculate statistical metrics for a series.
-    
-    Args:
-        data: Numeric series to analyze
-        
-    Returns:
-        Dictionary with metrics
-        
-    Examples:
-        >>> series = pd.Series([1, 2, 3, 4, 5])
-        >>> calculate_metrics(series)
-        {
-            'mean': 3.0,
-            'std': 1.58,
-            'min': 1.0,
-            'max': 5.0
-        }
-    """
-```
+## Next Steps
 
-### 3. Documentation Maintenance
-
-#### Version Control
-
-```bash
-# Update docs with code changes
-git add docs/
-git commit -m "docs: update API reference for new features"
-
-# Release documentation
-git tag -a v1.0.0-docs -m "Documentation for version 1.0.0"
-```
-
-#### Review Process
-
-1. Documentation Review Checklist:
-   - Accuracy
-   - Completeness
-   - Examples
-   - Links
-   - Formatting
-
-2. Automated Checks:
-   - Spelling
-   - Dead links
-   - Code examples
-
-## Tools Integration
-
-### 1. VS Code Extensions
-
-- markdownlint
-- Markdown All in One
-- Python Docstring Generator
-
-### 2. Pre-commit Hooks
-
-```yaml
-# .pre-commit-config.yaml
-repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
-    hooks:
-      - id: check-yaml
-      - id: check-json
-      - id: check-merge-conflict
-      - id: check-case-conflict
-      - id: check-docstring-first
-```
-
-### 3. CI/CD Integration
-
-```yaml
-# .github/workflows/docs.yml
-name: Documentation
-
-on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: pip install mkdocs-material
-      - run: mkdocs gh-deploy --force
-```
-
-## See Also
-
-- [Code Style Guide](code-style.md)
-- [Development Workflow](../user-guide/development-workflow.md)
-- [Contributing Guidelines](../contributing/guidelines.md)
+- Review [Code Style Guide](code-style.md)
+- Check [Development Workflow](../user-guide/development-workflow.md)
+- Explore [Contributing Guidelines](../contributing/guidelines.md)

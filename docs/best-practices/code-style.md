@@ -1,320 +1,273 @@
 # Code Style Guide
 
-This guide outlines our Python coding standards and best practices.
+This guide outlines the coding standards and style guidelines for the VS Code Prototype environment.
 
-## Python Style Rules
+## Python Style Guidelines
 
 ### Code Formatting
 
-We use Black for automatic code formatting:
-
-```python
-# Good - Black formatted
-def calculate_statistics(
-    data: pd.DataFrame,
-    columns: list[str],
-    include_nulls: bool = False,
-) -> dict[str, float]:
-    """Calculate statistics for specified columns."""
-    return {
-        column: data[column].mean()
-        for column in columns
-        if include_nulls or not data[column].isnull().any()
-    }
-
-# Bad - Inconsistent formatting
-def calculate_statistics(data:pd.DataFrame,columns:list[str],include_nulls:bool=False)->dict[str,float]:
-    return {column:data[column].mean() 
-        for column in columns if include_nulls or not data[column].isnull().any()}
-```
-
-## Code Organization
-
-### Imports
-
-Organize imports in three sections:
-
-```python
-# 1. Standard library
-import os
-from typing import Optional, List
-
-# 2. Third-party libraries
-import numpy as np
-import pandas as pd
-from scipy import stats
-
-# 3. Local modules
-from .utils import calculate_metrics
-from .constants import DEFAULT_THRESHOLD
-```
-
-### Variable Types
-
-#### Type Hints
-
-Use type hints consistently:
+We use Black for code formatting with a line length of 88 characters:
 
 ```python
 # Good
-def process_data(
-    items: list[str],
-    threshold: float = 0.5,
-    labels: Optional[list[str]] = None,
-) -> dict[str, float]:
-    """Process items with optional labels."""
-    
+def long_function_name(
+    long_parameter_name: str,
+    another_parameter: int,
+    final_parameter: bool = False
+) -> dict:
+    return {"result": True}
+
 # Bad
-def process_data(items, threshold=0.5, labels=None):
-    """Process items with optional labels."""
+def long_function_name(long_parameter_name: str, another_parameter: int, final_parameter: bool = False) -> dict:
+    return {"result": True}
 ```
 
-## Documentation
+### Import Organization
 
-### Docstrings
+Use isort for organizing imports:
+
+```python
+# Standard library
+import os
+import sys
+from typing import Dict, List, Optional
+
+# Third-party imports
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+# Local imports
+from src.data_processor import DataProcessor
+from src.utils import load_config
+```
+
+### Type Hints
+
+Use type hints for function arguments and return values:
+
+```python
+def process_data(
+    input_data: pd.DataFrame,
+    columns: List[str],
+    threshold: Optional[float] = None
+) -> Dict[str, Any]:
+    """
+    Process input data based on specified columns.
+    
+    Args:
+        input_data: Input DataFrame
+        columns: Columns to process
+        threshold: Optional processing threshold
+        
+    Returns:
+        Dictionary containing processed results
+    """
+    pass
+```
+
+### Documentation
 
 Use Google-style docstrings:
 
 ```python
 def calculate_metrics(
-    data: pd.DataFrame,
-    columns: list[str],
-    *,
-    aggregation: str = "mean",
-) -> dict[str, float]:
-    """Calculate statistical metrics for specified columns.
+    predictions: np.ndarray,
+    targets: np.ndarray,
+    weights: Optional[np.ndarray] = None
+) -> Dict[str, float]:
+    """
+    Calculate evaluation metrics.
     
     Args:
-        data: Input DataFrame containing numeric data
-        columns: List of column names to analyze
-        aggregation: Statistical operation to perform
-            Options: "mean", "median", "std"
-            
+        predictions: Model predictions
+        targets: Ground truth values
+        weights: Optional sample weights
+        
     Returns:
-        Dictionary mapping column names to their metrics
-        
+        Dictionary containing metrics:
+            - accuracy: Classification accuracy
+            - f1_score: F1 score
+            - auc: Area under ROC curve
+            
     Raises:
-        ValueError: If aggregation is not supported
-        KeyError: If any column is not found in data
-        
-    Example:
-        >>> df = pd.DataFrame({"A": [1, 2, 3], "B": [4, 5, 6]})
-        >>> calculate_metrics(df, ["A", "B"])
-        {"A": 2.0, "B": 5.0}
+        ValueError: If predictions and targets have different shapes
     """
-```
-
-### Comments
-
-Use comments sparingly and meaningfully:
-
-```python
-# Good - Explains complex logic
-# Apply Kalman filter to smooth noisy data
-smoothed_data = apply_kalman_filter(raw_data, noise_variance)
-
-# Bad - States the obvious
-# Get the mean
-mean_value = values.mean()
-```
-
-## Code Organization
-
-### Class Structure
-
-```python
-class DataProcessor:
-    """Process and analyze data with various methods."""
-    
-    def __init__(self, data: pd.DataFrame):
-        """Initialize with input data."""
-        self.data = data
-        self._validate_data()
-    
-    def _validate_data(self) -> None:
-        """Validate input data format and content."""
-        if not isinstance(self.data, pd.DataFrame):
-            raise TypeError("Data must be a pandas DataFrame")
-    
-    def process(self) -> pd.DataFrame:
-        """Process the data and return results."""
-        return self._apply_transformations()
-    
-    def _apply_transformations(self) -> pd.DataFrame:
-        """Apply series of transformations to data."""
-        # Implementation
-```
-
-### Module Structure
-
-```python
-"""Module docstring describing purpose and usage."""
-
-# Standard library imports
-import json
-from typing import Optional
-
-# Third-party imports
-import numpy as np
-import pandas as pd
-
-# Constants
-DEFAULT_THRESHOLD = 0.5
-VALID_METRICS = ["mean", "median", "std"]
-
-# Helper functions
-def _validate_input(data: pd.DataFrame) -> None:
-    """Validate input data."""
-    pass
-
-# Main functionality
-class MainClass:
-    """Main class docstring."""
-    pass
-
-def main_function():
-    """Main function docstring."""
-    pass
-
-# Optional: Main execution
-if __name__ == "__main__":
-    main_function()
-```
-
-## Naming Conventions
-
-### Variables and Functions
-
-```python
-# Good
-max_iterations = 100
-user_preferences = get_user_preferences()
-calculate_mean_value(data_points)
-
-# Bad
-maxiter = 100
-userprefs = getUserPrefs()
-calc_mean(points)
-```
-
-#### Classes
-
-```python
-# Good
-class DataProcessor:
-    pass
-
-class HTMLParser:
-    pass
-
-# Bad
-class dataProcessor:
-    pass
-
-class Html_Parser:
     pass
 ```
 
-#### Constants
+## Project Structure
 
-```python
-# Good
-MAX_CONNECTIONS = 100
-DEFAULT_TIMEOUT_MS = 1000
-VALID_STATUS_CODES = frozenset([200, 201, 204])
+### Directory Organization
 
-# Bad
-MaxConnections = 100
-timeout = 1000
-valid_codes = [200, 201, 204]
 ```
+project/
+├── src/
+│   ├── __init__.py
+│   ├── data_processor.py
+│   └── utils.py
+├── tests/
+│   ├── __init__.py
+│   ├── test_data_processor.py
+│   └── test_utils.py
+├── docs/
+│   └── api/
+├── notebooks/
+│   └── examples/
+└── scripts/
+    └── dev_server.py
+```
+
+### File Naming
+
+- Python modules: lowercase with underscores
+- Test files: prefix with `test_`
+- Documentation: lowercase with hyphens
 
 ## Best Practices
 
+### Code Quality
+
+1. Keep functions focused:
+   ```python
+   # Good
+   def process_data(data: pd.DataFrame) -> pd.DataFrame:
+       """Process input data."""
+       return clean_data(validate_data(data))
+   
+   # Bad
+   def process_and_analyze_and_save(data: pd.DataFrame) -> None:
+       """Do everything in one function."""
+       pass
+   ```
+
+2. Use descriptive names:
+   ```python
+   # Good
+   def calculate_average_temperature(readings: List[float]) -> float:
+       return sum(readings) / len(readings)
+   
+   # Bad
+   def calc_avg(x: List[float]) -> float:
+       return sum(x) / len(x)
+   ```
+
+### Testing
+
+1. Test file organization:
+   ```python
+   # test_data_processor.py
+   class TestDataProcessor:
+       def setup_method(self):
+           self.processor = DataProcessor()
+           
+       def test_process_data(self):
+           assert self.processor.process_data()
+           
+       def test_invalid_input(self):
+           with pytest.raises(ValueError):
+               self.processor.process_data(None)
+   ```
+
+2. Use fixtures for common setup:
+   ```python
+   # conftest.py
+   @pytest.fixture
+   def sample_data():
+       return pd.DataFrame({
+           'A': [1, 2, 3],
+           'B': ['x', 'y', 'z']
+       })
+   ```
+
 ### Error Handling
 
-```python
-# Good
-try:
-    value = process_data(input_data)
-except ValueError as e:
-    logger.error("Invalid data format: %s", e)
-    raise
-except KeyError as e:
-    logger.error("Missing required field: %s", e)
-    raise DataProcessingError("Missing field") from e
+1. Use specific exceptions:
+   ```python
+   class DataProcessorError(Exception):
+       """Base exception for data processing errors."""
+       pass
+   
+   class InvalidInputError(DataProcessorError):
+       """Raised when input data is invalid."""
+       pass
+   ```
 
-# Bad
-try:
-    value = process_data(input_data)
-except:  # Too broad
-    print("Error occurred")
+2. Provide context in error messages:
+   ```python
+   def validate_input(data: pd.DataFrame) -> None:
+       if data.empty:
+           raise InvalidInputError(
+               "Empty DataFrame provided. Expected non-empty data."
+           )
+   ```
+
+## VS Code Configuration
+
+### Settings
+
+Configure VS Code settings for consistent development:
+
+```json
+{
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "88"
+    ],
+    "editor.rulers": [88],
+    "editor.formatOnSave": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true
+}
 ```
 
-#### Context Managers
+### Extensions
 
-```python
-# Good
-with open("data.txt") as f:
-    content = f.read()
+Required extensions for code style:
 
-# Bad
-f = open("data.txt")
-content = f.read()
-f.close()
+1. Python
+2. Pylance
+3. Black Formatter
+4. isort
+5. flake8
+
+## Git Practices
+
+### Commit Messages
+
+Follow conventional commits:
+
+```bash
+# Feature
+git commit -m "feat: add data validation function"
+
+# Bug fix
+git commit -m "fix: handle empty DataFrame input"
+
+# Documentation
+git commit -m "docs: update code style guide"
 ```
 
-#### List Comprehensions
+### Pre-commit Hooks
 
-```python
-# Good - Simple, readable
-squares = [x * x for x in numbers if x > 0]
+Use pre-commit hooks for consistency:
 
-# Bad - Too complex
-squares = [x * x if x > 0 else 0 for x in numbers if x != None and isinstance(x, int)]
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/psf/black
+    rev: 22.3.0
+    hooks:
+      - id: black
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
 ```
 
-## Testing Style
+## Next Steps
 
-### Test Functions
-
-```python
-# Good
-def test_process_valid_data():
-    """Test processing of valid input data."""
-    input_data = pd.DataFrame({"A": [1, 2, 3]})
-    result = process_data(input_data)
-    assert result["A"].mean() == 2.0
-
-# Bad
-def test_1():
-    """Test something."""
-    assert process_data(pd.DataFrame({"A": [1, 2, 3]}))["A"].mean() == 2.0
-```
-
-## Test Structure
-
-### Test Organization
-
-```python
-class TestDataProcessor:
-    """Test suite for DataProcessor class."""
-    
-    def setup_method(self):
-        """Set up test fixtures."""
-        self.processor = DataProcessor()
-    
-    def test_valid_input(self):
-        """Test processing of valid input."""
-        pass
-    
-    def test_invalid_input(self):
-        """Test handling of invalid input."""
-        pass
-```
-
-## See Also
-
-- [PEP 8 Style Guide](https://www.python.org/dev/peps/pep-0008/)
-- [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
-- [Development Workflow](../user-guide/development-workflow.md)
+- Review [Documentation Guidelines](documentation.md)
+- Check [Development Workflow](../user-guide/development-workflow.md)
+- Explore [VS Code Integration](../user-guide/vscode-integration.md)

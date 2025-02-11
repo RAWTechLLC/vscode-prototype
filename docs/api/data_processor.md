@@ -1,39 +1,79 @@
-# DataProcessor API Reference
+# Data Processor API
+
+This document describes the Data Processor API provided by the VS Code Prototype environment.
 
 ## Overview
 
-The `DataProcessor` class provides functionality for loading, cleaning, and analyzing data using pandas DataFrames. It demonstrates various Python features and VS Code integrations.
+The Data Processor module provides utilities for processing and analyzing data within the VS Code environment.
 
-## Class Documentation
+## Classes
 
-::: src.data_processor.DataProcessor
-    handler: python
-    options:
-      show_root_heading: true
-      show_source: true
-      members:
-        - __init__
-        - load_data
-        - clean_data
-        - calculate_statistics
-        - filter_data
-        - get_column_types
-        - generate_summary
+### DataProcessor
+
+Main class for data processing operations.
+
+```python
+class DataProcessor:
+    """
+    A class for processing and analyzing data.
+    
+    Attributes:
+        input_path (str): Path to input data
+        output_path (str): Path for processed output
+    """
+    
+    def __init__(self, input_path: str, output_path: str):
+        """
+        Initialize the DataProcessor.
+        
+        Args:
+            input_path (str): Path to input data
+            output_path (str): Path for processed output
+        """
+        self.input_path = input_path
+        self.output_path = output_path
+```
 
 ## Methods
 
-### Data Loading and Cleaning
+### process_data
 
-- `__init__(data: Optional[pd.DataFrame] = None)`: Initialize the processor
-- `load_data(path: str)`: Load data from a file
-- `clean_data()`: Clean and preprocess the data
+```python
+def process_data(self, options: dict = None) -> bool:
+    """
+    Process the input data according to specified options.
+    
+    Args:
+        options (dict, optional): Processing options. Defaults to None.
+            Supported options:
+            - format (str): Output format ('csv', 'json')
+            - compress (bool): Whether to compress output
+            
+    Returns:
+        bool: True if processing successful, False otherwise
+        
+    Raises:
+        ValueError: If input file not found
+        TypeError: If options invalid
+    """
+    pass
+```
 
-### Analysis and Processing
+### analyze_results
 
-- `calculate_statistics(column: str) -> dict[str, float]`: Calculate column statistics
-- `filter_data(conditions: list[tuple]) -> pd.DataFrame`: Filter data based on conditions
-- `get_column_types() -> dict[str, str]`: Get column data types
-- `generate_summary() -> dict`: Generate data summary statistics
+```python
+def analyze_results(self) -> dict:
+    """
+    Analyze the processed data.
+    
+    Returns:
+        dict: Analysis results containing:
+            - row_count (int): Number of processed rows
+            - error_count (int): Number of errors
+            - processing_time (float): Time taken in seconds
+    """
+    pass
+```
 
 ## Usage Examples
 
@@ -43,134 +83,89 @@ The `DataProcessor` class provides functionality for loading, cleaning, and anal
 from src.data_processor import DataProcessor
 
 # Initialize processor
-processor = DataProcessor()
+processor = DataProcessor('input.csv', 'output.json')
 
-# Load data from CSV
-processor.load_data("data.csv")
+# Process data
+options = {
+    'format': 'json',
+    'compress': True
+}
+success = processor.process_data(options)
 
-# Clean the data
-processor.clean_data()
-
-# Get data summary
-summary = processor.generate_summary()
-print(summary)
+# Analyze results
+if success:
+    results = processor.analyze_results()
+    print(f"Processed {results['row_count']} rows")
 ```
 
-## Working with Statistics
-
-### Example Usage
-
-```python
-# Calculate statistics for a specific column
-stats = processor.calculate_statistics("value")
-print(f"Mean: {stats['mean']}")
-print(f"Median: {stats['median']}")
-print(f"Standard Deviation: {stats['std']}")
-```
-
-## Filtering Data
-
-### Example Usage
-
-```python
-# Define filter conditions
-conditions = [
-    ("value", "greater_than", 100),
-    ("category", "equals", "A")
-]
-
-# Apply filters
-filtered_data = processor.filter_data(conditions)
-print(f"Found {len(filtered_data)} matching records")
-```
-
-## Column Type Analysis
-
-### Example Usage
-
-```python
-# Get data types for all columns
-types = processor.get_column_types()
-for column, dtype in types.items():
-    print(f"{column}: {dtype}")
-```
-
-## Integration with Jupyter
-
-The DataProcessor class works seamlessly in Jupyter notebooks. Here's an example notebook workflow:
-
-```python
-# In a Jupyter notebook
-import pandas as pd
-import numpy as np
-from src.data_processor import DataProcessor
-
-# Create sample data
-data = pd.DataFrame({
-    'id': range(1, 101),
-    'value': np.random.normal(100, 15, 100),
-    'category': np.random.choice(['A', 'B', 'C'], 100)
-})
-
-# Initialize processor with data
-processor = DataProcessor(data)
-
-# Generate and display summary
-summary = processor.generate_summary()
-display(summary)
-
-# Calculate and plot statistics
-import matplotlib.pyplot as plt
-
-stats = processor.calculate_statistics('value')
-plt.figure(figsize=(10, 6))
-plt.hist(processor.data['value'], bins=20)
-plt.title('Value Distribution')
-plt.show()
-```
-
-## Error Handling
-
-The DataProcessor class includes robust error handling:
+### Error Handling
 
 ```python
 try:
-    # This will raise an error for non-existent column
-    stats = processor.calculate_statistics('invalid_column')
+    processor = DataProcessor('missing.csv', 'output.json')
+    processor.process_data()
 except ValueError as e:
     print(f"Error: {e}")
+```
 
-try:
-    # This will raise an error for invalid operator
-    conditions = [('value', 'invalid_operator', 100)]
-    filtered = processor.filter_data(conditions)
-except ValueError as e:
-    print(f"Error: {e}")
+## Configuration
+
+### Settings
+
+The DataProcessor can be configured through VS Code settings:
+
+```json
+{
+    "dataProcessor.defaultFormat": "json",
+    "dataProcessor.compression": true,
+    "dataProcessor.maxRows": 1000000
+}
+```
+
+### Environment Variables
+
+Required environment variables:
+
+- `DATA_PROCESSOR_INPUT_DIR`: Default input directory
+- `DATA_PROCESSOR_OUTPUT_DIR`: Default output directory
+
+## Testing
+
+Run the test suite:
+
+```bash
+pytest tests/test_data_processor.py
+```
+
+Example test:
+
+```python
+def test_process_data():
+    processor = DataProcessor('test_input.csv', 'test_output.json')
+    assert processor.process_data() == True
+    results = processor.analyze_results()
+    assert results['error_count'] == 0
 ```
 
 ## Best Practices
 
-1. Always clean data after loading:
-```python
-processor.load_data('data.csv')
-processor.clean_data()
-```
+1. Input Validation
+   - Always validate input file existence
+   - Check file format compatibility
+   - Verify data structure
 
-2. Check data summary before processing:
-```python
-summary = processor.generate_summary()
-print(f"Missing values: {summary['missing_values']}")
-```
+2. Error Handling
+   - Use appropriate exception types
+   - Provide detailed error messages
+   - Log errors for debugging
 
-3. Use type checking for columns:
-```python
-types = processor.get_column_types()
-numeric_columns = [col for col, dtype in types.items() 
-                  if np.issubdtype(dtype, np.number)]
-```
+3. Performance
+   - Process large files in chunks
+   - Use appropriate data structures
+   - Monitor memory usage
 
-## See Also
+## Next Steps
 
-- [User Guide](../user-guide/development-workflow.md)
-- [Jupyter Integration](../user-guide/vscode-integration.md#jupyter-notebooks)
-- [Best Practices](../best-practices/code-style.md)
+- Review [Code Style](../best-practices/code-style.md)
+- Check [Development Workflow](../user-guide/development-workflow.md)
+- Explore [VS Code Integration](../user-guide/vscode-integration.md)
